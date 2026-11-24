@@ -1,0 +1,12 @@
+# Zmień domenę na własną (Caddy automatycznie wystawi i odnowi certyfikat Let's Encrypt HTTPS)
+kompendium.twojadomena.pl {
+    encode zstd gzip
+
+    reverse_proxy 127.0.0.1:3456 {
+        header_up X-Real-IP {remote_host}
+    }
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    }
+}

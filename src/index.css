@@ -1,0 +1,290 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+:root {
+  /* Warm archival paper & ink palette */
+  --bg: #f6f4ef;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #edeae2;
+  --border: #ddd8cc;
+  --border-strong: #c4bdb0;
+  --text: #18181b;
+  --text-primary: #18181b;
+  --text-secondary: #3f3f46;
+  --text-muted: #71717a;
+
+  /* Restrained scholarly accents (PUT Prussian Navy + muted semantic inks) */
+  --accent: #1d3557;
+  --accent-soft: #e9eff6;
+  --accent-text: #1d3557;
+  --crimson: #9f1239;
+  --crimson-soft: #fdf2f4;
+  --success: #166534;
+  --success-soft: #eef7f1;
+  --warning: #9a5b13;
+  --warning-soft: #fbf6eb;
+  --danger: #b91c1c;
+  --danger-soft: #fef2f2;
+  --purple: #5b21b6;
+  --purple-soft: #f4f1fb;
+
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --shadow-sm: 0 1px 2px rgba(24, 24, 27, 0.04);
+  --shadow-md: 0 4px 14px -4px rgba(24, 24, 27, 0.08);
+}
+
+.dark {
+  /* Warm graphite & ivory ink dark mode */
+  --bg: #131416;
+  --bg-elevated: #1b1d21;
+  --bg-subtle: #23262c;
+  --border: #2e323b;
+  --border-strong: #3f4552;
+  --text: #ecebe6;
+  --text-primary: #ecebe6;
+  --text-secondary: #c5c4be;
+  --text-muted: #8b8d96;
+
+  --accent: #5b8fd9;
+  --accent-soft: rgba(91, 143, 217, 0.14);
+  --accent-text: #93bbf0;
+  --crimson: #e87996;
+  --crimson-soft: rgba(232, 121, 150, 0.12);
+  --success: #4ade80;
+  --success-soft: rgba(74, 222, 128, 0.12);
+  --warning: #eab308;
+  --warning-soft: rgba(234, 179, 8, 0.12);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.12);
+  --purple: #a78bfa;
+  --purple-soft: rgba(167, 139, 250, 0.12);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 18px -4px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif-heading {
+  font-family: var(--font-serif);
+}
+
+code,
+pre,
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Editorial surfaces — crisp 1px hairlines, restrained radii */
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-subtle {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.5rem 0.95rem;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: opacity 140ms ease, background 140ms ease;
+}
+
+.dark .btn-primary {
+  color: #0f141c;
+  font-weight: 600;
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 0.48rem 0.9rem;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-subtle);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.input-field {
+  width: 100%;
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 0.5rem 0.78rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 140ms ease;
+}
+
+.input-field:focus {
+  border-color: var(--accent);
+}
+
+/* 3D Flashcard flip — index-card aesthetic */
+.flip-scene {
+  perspective: 1200px;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  min-height: 330px;
+  transform-style: preserve-3d;
+  transition: transform 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+
+.flip-card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.75rem;
+  overflow-y: auto;
+}
+
+.flip-face-back {
+  transform: rotateY(180deg);
+  border-color: var(--accent);
+}
+
+/* Inline code inside prose */
+.prose-code {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.08rem 0.34rem;
+  font-size: 0.84em;
+  color: var(--accent-text);
+  font-weight: 500;
+}
+
+/* Slide figure presentation */
+.slide-frame {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.slide-frame:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+/* KaTeX readability refinements */
+.katex-display {
+  margin: 0.65rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+/* Print styling for Exam Topics */
+@media print {
+  aside,
+  header,
+  .no-print {
+    display: none !important;
+  }
+  body,
+  .card {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border-color: #d4d4d8 !important;
+  }
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  .print-break-avoid {
+    break-inside: avoid;
+  }
+}

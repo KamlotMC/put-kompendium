@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: put-kompendium
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: "true"
+      - key: STUDY_DB_PATH
+        value: /app/data/study.db
+    # Jeśli przejdziesz na plan płatny (plan: starter), odkomentuj poniższy dysk trwały,
+    # aby postępy w SQLite przetrwały restarty kontenera:
+    # disk:
+    #   name: put-kompendium-data
+    #   mountPath: /app/data
+    #   sizeGB: 1

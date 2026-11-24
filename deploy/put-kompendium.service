@@ -1,0 +1,25 @@
+[Unit]
+Description=PUT Kompendium (Semestr I — Node.js + SQLite)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/put-kompendium
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=3456
+Environment=TRUST_PROXY=true
+Environment=STUDY_DB_PATH=/opt/put-kompendium/data/study.db
+ExecStart=/usr/bin/node /opt/put-kompendium/server/index.js
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/put-kompendium/data
+
+[Install]
+WantedBy=multi-user.target
