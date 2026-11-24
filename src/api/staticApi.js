@@ -614,4 +614,21 @@ export const api = {
   async getBackup() {
     return { exportedAt: new Date().toISOString(), storage: 'localStorage', ...readStore() };
   },
+
+  async importBackup(payload) {
+    if (!payload || typeof payload !== 'object') throw new Error('Nieprawidłowy plik kopii zapasowej JSON.');
+    const base = emptyStore();
+    const next = {
+      chapters: payload.chapters && typeof payload.chapters === 'object' ? payload.chapters : base.chapters,
+      topics: payload.topics && typeof payload.topics === 'object' ? payload.topics : base.topics,
+      reviews: payload.reviews && typeof payload.reviews === 'object' ? payload.reviews : base.reviews,
+      custom: Array.isArray(payload.custom) ? payload.custom : base.custom,
+      attempts: Array.isArray(payload.attempts) ? payload.attempts : base.attempts,
+      activity: Array.isArray(payload.activity) ? payload.activity : base.activity,
+      subnet: Array.isArray(payload.subnet) ? payload.subnet : base.subnet,
+      seq: Number(payload.seq) || 0,
+    };
+    writeStore(next);
+    return { ok: true };
+  },
 };

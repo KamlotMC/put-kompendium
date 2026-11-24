@@ -78,6 +78,8 @@ const serverApi = {
   getSubnetStats: () => request('/api/subnet/stats'),
 
   getBackup: () => request('/api/backup'),
+  importBackup: (payload) =>
+    request('/api/backup/import', { method: 'POST', body: JSON.stringify(payload) }),
 };
 
 export const api = import.meta.env.VITE_STATIC ? staticApi : serverApi;

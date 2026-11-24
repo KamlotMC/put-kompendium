@@ -11,6 +11,7 @@ import {
   Sun,
   Moon,
   Download,
+  Upload,
   Menu,
   X,
   Home,
@@ -186,6 +187,20 @@ export default function App() {
     a.download = `put-kompendium-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleImportBackup = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      await api.importBackup(parsed);
+      await refreshData(activeSubject);
+      window.alert('Kopia zapasowa postępów została zaimportowana.');
+    } catch (err) {
+      window.alert(err?.message || 'Nie udało się zaimportować pliku kopii zapasowej.');
+    }
   };
 
   const isMath = activeSubject === 'analiza';
@@ -434,8 +449,17 @@ export default function App() {
 
       {/* Minimal Footer */}
       <div className="px-3 py-2.5 border-t border-[var(--border)] flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)]">
-        <span>SQLite · 6/6 przedmiotów</span>
+        <span>{import.meta.env.VITE_STATIC ? 'Przeglądarka · 6/6' : 'SQLite · 6/6 przedmiotów'}</span>
         <div className="flex items-center gap-1">
+          {import.meta.env.VITE_STATIC && (
+            <label
+              className="p-1.5 rounded hover:bg-[var(--bg-subtle)] text-[var(--text-muted)] cursor-pointer inline-flex items-center"
+              title="Importuj kopię zapasową postępów (JSON)"
+            >
+              <Upload className="w-3.5 h-3.5" />
+              <input type="file" accept="application/json,.json" onChange={handleImportBackup} className="hidden" />
+            </label>
+          )}
           <button
             onClick={handleExportBackup}
             className="p-1.5 rounded hover:bg-[var(--bg-subtle)] text-[var(--text-muted)] bg-transparent border-0 cursor-pointer"

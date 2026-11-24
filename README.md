@@ -45,6 +45,14 @@ npm run test:api
 
 ---
 
+## Wersja online (GitHub Pages)
+
+Platforma działa publicznie jako aplikacja statyczna (zapis postępów w `localStorage` + eksport/import kopii JSON):
+- **https://kamlotmc.github.io/put-kompendium/**
+- Automatyczne wdrożenie przez `.github/workflows/pages.yml` (`npm run build:static`).
+
+---
+
 ## Opcje hostowania (produkcja)
 
 ### 1. Docker / Docker Compose (najprostsza na VPS, serwerze domowym lub NAS)
